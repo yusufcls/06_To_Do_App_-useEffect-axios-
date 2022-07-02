@@ -12,23 +12,30 @@ const Home = () => {
     try {
       const { data } = await axios.get(url);
       setTutorials(data);
-
-    } catch (error) {console.error();
-
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  //! Sadece Component mount oldugunda istek yapar
   useEffect(() => {
     getTutorials();
   }, []);
 
   console.log(tutorials);
 
+  const addTutorial = async (tutorial) => {
+    try {
+      await axios.post(url, tutorial);
+    } catch (error) {
+      console.log(error);
+    }
+      getTutorials();
+  };
+
   return (
     <>
-      <AddTutorial />
-      <TutorialList />
+      <AddTutorial addTutorial={addTutorial} />
+      <TutorialList tutorials={tutorials} />
     </>
   );
 };
